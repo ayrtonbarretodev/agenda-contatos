@@ -29,20 +29,29 @@ public class Controller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getServletPath();
-		if (action.equals("/main")) {
+
+		switch (action) {
+		case "/main":
 			contatos(request, response);
-		} else if (action.equals("/insert")) {
+			break;
+		case "/insert":
 			adicionarContato(request, response);
-		} else if (action.equals("/select")) {
+			break;
+		case "/select":
 			listarContato(request, response);
-		} else if (action.equals("/update")) {
+			break;
+		case "/update":
 			editarContato(request, response);
-		} else if (action.equals("/delete")) {
+			break;
+		case "/delete":
 			deletarContato(request, response);
-		} else if (action.equals("/report")) {
+			break;
+		case "/report":
 			gerarRelatorio(request, response);
-		} else {
+			break;
+		default:
 			response.sendRedirect("index.html");
+			break;
 		}
 	}
 
@@ -66,9 +75,7 @@ public class Controller extends HttpServlet {
 	protected void listarContato(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Integer id = Integer.valueOf(request.getParameter("idcon"));
-
-		contato.setIdcon(id);
+		contato.setIdcon(Integer.valueOf(request.getParameter("idcon")));
 		dao.select(contato);
 
 		request.setAttribute("idcon", contato.getIdcon());
@@ -82,8 +89,7 @@ public class Controller extends HttpServlet {
 
 	protected void editarContato(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer id = Integer.valueOf(request.getParameter("idcon"));
-		contato.setIdcon(id);
+		contato.setIdcon(Integer.valueOf(request.getParameter("idcon")));
 		contato.setNome(request.getParameter("nome"));
 		contato.setTelefone(request.getParameter("fone"));
 		contato.setEmail(request.getParameter("email"));
@@ -93,8 +99,7 @@ public class Controller extends HttpServlet {
 
 	protected void deletarContato(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer id = Integer.valueOf(request.getParameter("idcon"));
-		contato.setIdcon(id);
+		contato.setIdcon(Integer.valueOf(request.getParameter("idcon")));
 		dao.delete(contato);
 		response.sendRedirect("main");
 	}
